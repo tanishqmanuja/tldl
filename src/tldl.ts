@@ -70,7 +70,8 @@ export class TLDL {
 
     const prompt =
       opts.prompt ??
-      `Summarize the following transcript for a video, list key takeways. Give bullets for does and donts if applicable.`;
+      `Summarize the following transcript for a video titled "${metadata.title}" by ${metadata.uploader}, list key takeways.
+       Give bullets for does and donts if applicable.`;
 
     const stream = await model.generateContentStream(
       `${prompt} :\n\n${transcript}`
