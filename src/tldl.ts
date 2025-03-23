@@ -4,6 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SingleBar } from "cli-progress";
 
 import chalk from "chalk";
+import { formatDuration } from "./utils/duration";
 
 export class TLDL {
   private ai: GoogleGenerativeAI;
@@ -19,7 +20,7 @@ export class TLDL {
 
     const metadata = await getMetadata(videoUrl);
     console.log(chalk.gray(" - Title:", metadata.title));
-    console.log(chalk.gray(" - Duration:", metadata.duration, "seconds"));
+    console.log(chalk.gray(" - Duration:", formatDuration(metadata.duration)));
 
     const videoId = metadata.id;
 
