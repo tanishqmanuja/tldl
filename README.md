@@ -2,6 +2,11 @@
 
 TLDL is a tool that uses Gemini AI to summarize YouTube videos.
 
+#### 🛠️ Prerequisites:
+
+- [Bun](https://bun.sh/)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
 ## 🦋 Installation
 
 ```bash
