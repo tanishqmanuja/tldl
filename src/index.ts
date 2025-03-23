@@ -1,9 +1,6 @@
 import { parseArgs } from "util";
 import { TLDL } from "./tldl";
 
-// const VIDEO_URL = "https://www.youtube.com/watch?v=nntqlmMSaSw"; // Was Your Grandmother Right : The Science of Bioavailability
-// const VIDEO_URL = "https://www.youtube.com/watch?v=mgVKrlDFCX4"; // The Science of Tadka (featuring Abhijit Bannerjee)
-
 const { positionals } = parseArgs({
   args: Bun.argv,
   options: {},
