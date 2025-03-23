@@ -1,5 +1,4 @@
 import { parse } from "@plussub/srt-vtt-parser";
-import { extractYouTubeID } from "./utils";
 import { downloadSubs, getMetadata } from "./yt-dlp";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SingleBar } from "cli-progress";
@@ -22,7 +21,7 @@ export class TLDL {
     console.log(chalk.gray(" - Title:", metadata.title));
     console.log(chalk.gray(" - Duration:", metadata.duration, "seconds"));
 
-    const videoId = metadata.id ?? extractYouTubeID(videoUrl);
+    const videoId = metadata.id;
 
     console.log("📝 Downloading subs...");
     const downloadedSubs = await downloadSubs(videoUrl);
