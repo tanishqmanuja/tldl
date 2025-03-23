@@ -1,15 +1,19 @@
-# tldl
+# TLDL //TOO LONG DIDN'T LISTEN
 
-To install dependencies:
+TLDL is a tool that uses Gemini AI to summarize YouTube videos.
 
-```bash
-bun install
-```
-
-To run:
+## 🦋 Installation
 
 ```bash
-bun run index.ts
+git clone https://github.com/tanishqmanuja/tldl && cd tldl && bun install
 ```
 
-This project was created using `bun init` in bun v1.2.2. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## 📃 Usage
+
+```bash
+bun tldl https://www.youtube.com/watch?v=nntqlmMSaSw
+```
+
+## 🍀 Show Support
+
+Give this repo a star ⭐️ if this project helped you!
