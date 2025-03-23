@@ -11,7 +11,7 @@ git clone https://github.com/tanishqmanuja/tldl && cd tldl && bun install
 ## 📃 Usage
 
 ```bash
-bun tldl https://www.youtube.com/watch?v=nntqlmMSaSw
+bun tldl "https://www.youtube.com/watch?v=nntqlmMSaSw"
 ```
 
 ## 🍀 Show Support
