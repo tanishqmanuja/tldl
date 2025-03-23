@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.2.5",
+    "@types/cli-progress": "^3.11.6",
     "@types/node": "^22.13.11"
   },
   "peerDependencies": {
@@ -15,6 +16,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
     "@plussub/srt-vtt-parser": "^2.0.5",
-    "chalk": "^5.4.1"
+    "chalk": "^5.4.1",
+    "cli-progress": "^3.12.0"
   }
 }

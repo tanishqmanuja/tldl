@@ -2,6 +2,7 @@ import { parse } from "@plussub/srt-vtt-parser";
 import { extractYouTubeID } from "./utils";
 import { downloadSubs, getMetadata } from "./yt-dlp";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { SingleBar } from "cli-progress";
 
 import chalk from "chalk";
 
@@ -58,24 +59,42 @@ export class TLDL {
     console.log("🤖 Summarizing...");
     console.log(chalk.gray(" - Model:", this.model));
 
+    const bar = new SingleBar({
+      format: chalk.gray` - [{bar}]`,
+      hideCursor: true,
+    });
+
+    bar.start(100, 0); // Start with unknown total size
+
     const model = this.ai.getGenerativeModel({ model: this.model });
 
     const prompt =
       opts.prompt ??
       `Summarize the following transcript, list key takeways. Give bullets for does and donts if applicable.`;
 
-    const response = await model.generateContent(
+    const stream = await model.generateContentStream(
       `${prompt} :\n\n${transcript}`
     );
 
-    const summary =
-      `# ${metadata.title}` +
-      "\n\n" +
-      `Source: ${metadata.webpage_url}` +
-      "\n\n" +
-      response.response.text();
-    Bun.write(`./out/summaries/${videoId}.md`, summary);
+    const file = Bun.file(`./out/summaries/${videoId}.md`);
+    await Bun.write(file, "");
 
-    console.log("✅ Done!");
+    const writer = file.writer();
+
+    writer.write(`# ${metadata.title}\n\n`);
+    writer.write(`Source: ${metadata.webpage_url}\n\n`);
+
+    let totalChunks = 0;
+    for await (const chunk of stream.stream) {
+      totalChunks++;
+      const part = chunk.text();
+      writer.write(part);
+
+      bar.update(Math.min(totalChunks * 5, 100)); // Estimating 5% per chunk
+    }
+
+    bar.update(100);
+    bar.stop();
+    await writer.end();
   }
 }
