@@ -1,10 +1,12 @@
-import { parse } from "@plussub/srt-vtt-parser";
-import { downloadSubs, getMetadata } from "./yt-dlp";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { parse } from "@plussub/srt-vtt-parser";
 import { SingleBar } from "cli-progress";
+import { downloadSubs, getMetadata } from "./yt-dlp";
 
 import chalk from "chalk";
 import { formatDuration } from "./utils/duration";
+import path from "path";
+import { OUT_DIR } from "./constants";
 
 export class TLDL {
   private ai: GoogleGenerativeAI;
@@ -53,7 +55,7 @@ export class TLDL {
     }
 
     const transcript = deduped.join("\n");
-    Bun.write(`./out/transcripts/${videoId}.txt`, transcript);
+    Bun.write(path.resolve(OUT_DIR, `transcripts/${videoId}.txt`), transcript);
     console.log(chalk.gray(" - Words:", transcript.split(" ").length));
 
     console.log("🤖 Summarizing...");
@@ -77,8 +79,8 @@ export class TLDL {
       `${prompt} :\n\n${transcript}`
     );
 
-    const file = Bun.file(`./out/summaries/${videoId}.md`);
-    await Bun.write(file, "");
+    const file = Bun.file(path.resolve(OUT_DIR, `summaries/${videoId}.md`));
+    await Bun.write(file, "## Summary\n\n"); //create file if it doesn't exist
 
     const writer = file.writer();
 
@@ -97,5 +99,15 @@ export class TLDL {
     bar.update(100);
     bar.stop();
     await writer.end();
+
+    return {
+      id: videoId,
+      title: metadata.title,
+      path: {
+        subs: downloadedSubs,
+        transcript: path.resolve(OUT_DIR, `transcripts/${videoId}.txt`),
+        summary: path.resolve(OUT_DIR, `summaries/${videoId}.md`),
+      },
+    };
   }
 }

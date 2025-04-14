@@ -1,7 +1,8 @@
 import { $ } from "bun";
 import path from "path";
+import { OUT_DIR } from "./constants";
 
-const SUBS_DIR = "out/subs";
+const SUBS_DIR = "subs";
 const SUBS_LANG = "en";
 
 export async function getMetadata(url: string): Promise<YouTubeMetadata> {
@@ -10,7 +11,7 @@ export async function getMetadata(url: string): Promise<YouTubeMetadata> {
 }
 
 export async function downloadSubs(url: string): Promise<string> {
-  const output = path.join(SUBS_DIR, "%(id)s.%(ext)s");
+  const output = path.join(OUT_DIR, SUBS_DIR, "%(id)s.%(ext)s");
   const response =
     await $`yt-dlp --write-sub --write-auto-sub --sub-lang ${SUBS_LANG} --skip-download -o "${output}" "${url}"`.quiet();
 

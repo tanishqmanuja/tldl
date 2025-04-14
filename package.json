@@ -2,17 +2,22 @@
   "name": "tldl",
   "module": "index.ts",
   "type": "module",
+  "bin": {
+    "tldl": "./out/index.js"
+  },
   "scripts": {
     "start": "bun src/index.ts",
-    "tldl": "bun src/index.ts"
+    "tldl": "bun src/index.ts",
+    "build": "bun build --entrypoints ./src/index.ts --outdir ./out --target bun --env inline",
+    "build:prod": "bun --env-file .env.production build"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.5",
+    "@types/bun": "^1.2.9",
     "@types/cli-progress": "^3.11.6",
-    "@types/node": "^22.13.11"
+    "@types/node": "^22.14.1"
   },
   "peerDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
